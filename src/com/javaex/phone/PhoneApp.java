@@ -44,48 +44,75 @@ public class PhoneApp {
 					
 				case 2: //등록
 					System.out.println("<2.등록>");
-					PhoneVo personVo = new PhoneVo ();
+					PhoneVo phoneVo = new PhoneVo ();
 					
 					System.out.print("이름 > ");
-					personVo.setName(sc.nextLine());
+					phoneVo.setName(sc.nextLine());
 					System.out.print("휴대전화 > ");
-					personVo.setHp(sc.nextLine());
+					phoneVo.setHp(sc.nextLine());
 					System.out.print("회사번호 > ");
-					personVo.setCompany(sc.nextLine());
+					phoneVo.setCompany(sc.nextLine());
 					
-					phoneDao.phoneInsert(personVo);
+					phoneDao.phoneInsert(phoneVo);
 					System.out.println("[등록되었습니다.]");
 					System.out.println();
 					break;
 					
 				case 3: //수정
 					System.out.println("<3.수정>");
-					PhoneVo pUpdate = new PhoneVo();
+					PhoneVo phoneUpdate = new PhoneVo();
 					
 					System.out.print("번호 > ");
-					pUpdate.setPersonId(sc.nextInt());
-					
+					phoneUpdate.setPersonId(sc.nextInt());
 					System.out.print("이름 > ");
-					pUpdate.setName(sc.nextLine());
-					
+					phoneUpdate.setName(sc.nextLine());
 					System.out.print("휴대전화 > ");
-					pUpdate.setHp(sc.nextLine());
-					
+					phoneUpdate.setHp(sc.nextLine());
 					System.out.print("회사번호 > ");
-					pUpdate.setCompany(sc.nextLine());
+					phoneUpdate.setCompany(sc.nextLine());
 					
-					phonelist.add(pUpdate);
+					phonelist.add(phoneUpdate);
+					System.out.println("[수정되었습니다.]");
 					System.out.println("");
 					break;
 				case 4: //삭제
 					System.out.println("<4.삭제>");
-					System.out.print("번호 > ");
+					PhoneVo phoneDelete = new PhoneVo();
 					
+					System.out.print("번호 > ");
+					phoneDelete.setPersonId(sc.nextInt());
+					phoneDao.phoneDelete(phoneDelete);
+					System.out.println("[삭제되었습니다.]");
+					System.out.println("");
+					break;
 					
 				case 5: //검색
+					System.out.println("<5.검색>");
+					
+					System.out.println("검색어 > ");
+					String search = sc.nextLine();
+					
+					List<PhoneVo> phoneSearch = phoneDao.phoneSearch(search);
+					
+					for(int i=0; i<phoneSearch.size(); i++) {
+						int personId = phoneSearch.get(i).getPersonId();
+						String sName = phoneSearch.get(i).getName();
+						String sHp = phoneSearch.get(i).getHp();
+						String sCompany = phoneSearch.get(i).getCompany();
+						
+						System.out.println(personId + ".\t" + sName + "\t" + sHp + "\t" + sCompany);
+					}
+					
+					
 				case 6: //종료
-				
-				//default
+					System.out.println("**************************************");
+					System.out.println("*             감사합니다             *");
+					System.out.println("**************************************");
+					System.out.println("");
+					break;
+				default : 
+					System.out.println("[다시 입력해주세요.]");
+					break;
 			}
 		}
 		sc.close();

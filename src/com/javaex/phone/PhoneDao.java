@@ -158,7 +158,7 @@ public class PhoneDao {
 	
 	
 	// 4. 삭제 메소드
-	public int personDelete(PhoneVo phoneVo) {
+	public int phoneDelete(PhoneVo phoneVo) {
 		int count = -1;
 		getConnection();
 		try {
@@ -186,4 +186,45 @@ public class PhoneDao {
 	}
 	
 	
+	// 5. 검색 메소드
+	public List<PhoneVo> phoneSearch(String search) {
+		List<PhoneVo> phoneList = new ArrayList<PhoneVo>();
+		getConnection();
+		try {
+			//SQL문 준비
+			String query = "";
+			query += " select person_id, ";
+			query += "        name, ";
+			query += "        hp, ";
+			query += "        company ";
+			query += " from person ";
+			//System.out.println(query);
+			
+			//바인딩
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, "%" + search + "%");
+			pstmt.setString(2, "%" + search + "%");
+			pstmt.setString(3, "%" + search + "%");
+			
+			//실행
+			//ResultSet 가져오기
+			rs = pstmt.executeQuery();
+			
+			// 4.결과처리
+			//반목문으로 Vo만들기 / list에 추가하기
+			while(rs.next()) {
+				int personId = rs.getInt("person_id");
+				String Name = rs.getString("name");
+				String Hp = rs.getString("hp");
+				String Company = rs.getString("company");
+				
+				PhoneVo phoneVo = new PhoneVo(personId, Name, Hp, Company);
+				phoneList.add(phoneVo);
+			}
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		close();
+		return phoneList;
+	}
 }
