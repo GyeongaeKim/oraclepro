@@ -1,6 +1,6 @@
 package com.javaex.phone;
 
-public class PhoneVo {
+public class PersonVo {
 	//생성자
 	private int personId;
 	private String name;
@@ -10,9 +10,20 @@ public class PhoneVo {
 	
 	
 	//필드
-	public PhoneVo() {
+	public PersonVo() {
 	}
-	public PhoneVo(int personId, String name, String hp, String company) {
+	
+	public PersonVo(int personId) {
+		this.personId = personId;
+	}
+
+	public PersonVo(String name, String hp, String company) {
+		this.name = name;
+		this.hp = hp;
+		this.company = company;
+	}
+	
+	public PersonVo(int personId, String name, String hp, String company) {
 		this.personId = personId;
 		this.name = name;
 		this.hp = hp;

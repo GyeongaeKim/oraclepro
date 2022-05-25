@@ -10,7 +10,7 @@ public class PhoneApp {
 	public static void main(String[] args) {
 		
 		PhoneDao phoneDao = new PhoneDao();
-		List<PhoneVo> phonelist = new ArrayList<PhoneVo>();
+		List<PersonVo> phonelist = new ArrayList<PersonVo>();
 		Scanner sc = new Scanner(System.in);
 		
 		
@@ -30,7 +30,7 @@ public class PhoneApp {
 			switch(menuNo) {
 				case 1: //리스트 
 					System.out.println("<1.리스트>");
-					List<PhoneVo> dbList = phoneDao.phoneSelect();
+					List<PersonVo> dbList = phoneDao.phoneSelect();
 					for(int i=0; i<dbList.size(); i++) {
 						int personId = dbList.get(i).getPersonId();
 						String name = dbList.get(i).getName();
@@ -44,7 +44,7 @@ public class PhoneApp {
 					
 				case 2: //등록
 					System.out.println("<2.등록>");
-					PhoneVo phoneVo = new PhoneVo ();
+					PersonVo phoneVo = new PersonVo ();
 					
 					System.out.print("이름 > ");
 					phoneVo.setName(sc.nextLine());
@@ -60,7 +60,7 @@ public class PhoneApp {
 					
 				case 3: //수정
 					System.out.println("<3.수정>");
-					PhoneVo phoneUpdate = new PhoneVo();
+					PersonVo phoneUpdate = new PersonVo();
 					
 					System.out.print("번호 > ");
 					phoneUpdate.setPersonId(sc.nextInt());
@@ -77,7 +77,7 @@ public class PhoneApp {
 					break;
 				case 4: //삭제
 					System.out.println("<4.삭제>");
-					PhoneVo phoneDelete = new PhoneVo();
+					PersonVo phoneDelete = new PersonVo();
 					
 					System.out.print("번호 > ");
 					phoneDelete.setPersonId(sc.nextInt());
@@ -92,7 +92,7 @@ public class PhoneApp {
 					System.out.print("검색어 > ");
 					String search = sc.nextLine();
 					
-					List<PhoneVo> phoneSearch = phoneDao.phoneSearch(search);
+					List<PersonVo> phoneSearch = phoneDao.phoneSearch(search);
 					
 					for(int i=0; i<phoneSearch.size(); i++) {
 						int personId = phoneSearch.get(i).getPersonId();
