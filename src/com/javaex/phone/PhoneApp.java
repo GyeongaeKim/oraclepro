@@ -18,7 +18,7 @@ public class PhoneApp {
 		System.out.println("*       전화번호 관리 프로그램       *");
 		System.out.println("**************************************");
 		System.out.println("");
-		
+		 
 		while(true) {
 			System.out.println("1.리스트 2.등록 3.수정 4.삭제 5.검색 6.종료");
 			System.out.println("--------------------------------------");
