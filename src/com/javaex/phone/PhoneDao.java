@@ -59,10 +59,10 @@ public class PhoneDao {
 		
 		try {
 			String query = "";
-			query += " select person_id ";
-			query += "     	 ,name ";
-			query += "       ,hp ";
-			query += "       ,company ";
+			query += " select person_id, ";
+			query += "     	  name, ";
+			query += "        hp, ";
+			query += "        company ";
 			query += " from person ";
 			query += " order by person_id asc ";
 
@@ -85,22 +85,19 @@ public class PhoneDao {
 	}
 
 	// 2. 등록 메소드
-	public int phoneInsert(PersonVo phoneVo) {
+	public int phoneInsert(PersonVo personVo) {
 		int count = -1;
-
 		getConnection();
-
 		try {
 			String query = "";
 			query += " insert into person ";
 			query += " values(seq_person_id.nextval, ?, ?, ?) ";
 
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, phoneVo.getName());
-			pstmt.setString(2, phoneVo.getHp());
-			pstmt.setString(3, phoneVo.getCompany());
+			pstmt.setString(1, personVo.getName());
+			pstmt.setString(2, personVo.getHp());
+			pstmt.setString(3, personVo.getCompany());
 
-			// 실행
 			count = pstmt.executeUpdate();
 
 			System.out.println("[" + count + "건 등록되었습니다.]");
@@ -115,7 +112,7 @@ public class PhoneDao {
 	}
 
 	// 3. 수정 메소드
-	public int phoneUpdate(PersonVo phoneVo) {
+	public int phoneUpdate(PersonVo personVo) {
 		int count = -1;
 		getConnection();
 		try {
@@ -127,10 +124,10 @@ public class PhoneDao {
 			query += " where person_id = ? ";
 
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, phoneVo.getName());
-			pstmt.setString(2, phoneVo.getHp());
-			pstmt.setString(3, phoneVo.getCompany());
-			pstmt.setInt(4, phoneVo.getPersonId());
+			pstmt.setString(1, personVo.getName());
+			pstmt.setString(2, personVo.getHp());
+			pstmt.setString(3, personVo.getCompany());
+			pstmt.setInt(4, personVo.getPersonId());
 
 			count = pstmt.executeUpdate();
 
@@ -145,7 +142,7 @@ public class PhoneDao {
 	}
 
 	// 4. 삭제 메소드
-	public int phoneDelete(PersonVo phoneVo) {
+	public int phoneDelete(PersonVo personVo) {
 		int count = -1;
 		getConnection();
 		try {
@@ -154,7 +151,7 @@ public class PhoneDao {
 			query += " where person_id = ? ";
 
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, phoneVo.getPersonId());
+			pstmt.setInt(1, personVo.getPersonId());
 
 			count = pstmt.executeUpdate();
 			System.out.println("["+ count + "건 삭제되었습니다.]");
@@ -168,42 +165,50 @@ public class PhoneDao {
 	}
 
 	// 5. 검색 메소드
-	public List<PersonVo> phoneSearch(String search){
-		List<PersonVo> phoneList = new ArrayList<PersonVo>();
+	public List<PersonVo> phoneSearch(String searchKey) {
+		List<PersonVo> phoneSearchList = new ArrayList<PersonVo>();
+		Scanner sc = new Scanner(System.in);
 		getConnection();
-		
 		try {
 			String query = "";
-			query += " select person_id ";
-			query += "     	 ,name ";
-			query += "       ,hp ";
-			query += "       ,company ";
-			query += " from  person ";
-			query += " where  name like ? ";
-			query += "  	  or hp like ? ";
-			query += "  	  or company like ? ";
+			query += " select person_id, ";
+			query += "     	  name, ";
+			query += "        hp, ";
+			query += "        company ";
+			query += " from person ";
 			query += " order by person_id asc ";
 			
 			pstmt = conn.prepareStatement(query);
 			
 			rs = pstmt.executeQuery();
-
+			
+			//결과처리
 			while(rs.next()) {
 				int personId = rs.getInt("person_id");
 				String name = rs.getString("name");
 				String hp = rs.getString("hp");
 				String company = rs.getString("company");
 				
-				PersonVo phoneVo = new PersonVo(personId, name, hp, company);
-				phoneList.add(phoneVo);
+				PersonVo personVo = new PersonVo(personId, name, hp, company);
+				phoneSearchList.add(personVo);
 			}
-
+			
+			for(int i=0; i<phoneSearchList.size(); i++) {
+				if(phoneSearchList.get(i).getName().contains(searchKey)
+						||phoneSearchList.get(i).getHp().contains(searchKey)
+						||phoneSearchList.get(i).getCompany().contains(searchKey)==true) {
+					System.out.println(phoneSearchList.get(i).getPersonId()
+							+", "+ phoneSearchList.get(i).getName()
+							+", "+ phoneSearchList.get(i).getHp()
+							+", "+ phoneSearchList.get(i).getCompany());
+				}
+			}
+			System.out.println("");
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
-		
 		close();
-		return phoneList;
+		return phoneSearchList;
 	}
 }
 
