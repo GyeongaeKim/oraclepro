@@ -25,7 +25,7 @@ public class PhoneApp {
 			System.out.print(">메뉴번호: ");
 			int menuNo = sc.nextInt();
 			
-			if(menuNo==5) {break;}
+			if(menuNo==6) {break;}
 			
 			switch(menuNo) {
 				case 1: //리스트 
@@ -89,7 +89,7 @@ public class PhoneApp {
 				case 5: //검색
 					System.out.println("<5.검색>");
 					
-					System.out.println("검색어 > ");
+					System.out.print("검색어 > ");
 					String search = sc.nextLine();
 					
 					List<PhoneVo> phoneSearch = phoneDao.phoneSearch(search);
