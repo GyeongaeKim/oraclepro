@@ -10,7 +10,7 @@ public class PhoneApp {
 	public static void main(String[] args) {
 		
 		PhoneDao phoneDao = new PhoneDao();
-		List<PhoneVo> pVolist = new ArrayList<PhoneVo>();
+		List<PhoneVo> phonelist = new ArrayList<PhoneVo>();
 		Scanner sc = new Scanner(System.in);
 		
 		
@@ -18,7 +18,7 @@ public class PhoneApp {
 		System.out.println("*       전화번호 관리 프로그램       *");
 		System.out.println("**************************************");
 		System.out.println("");
-		 
+		
 		while(true) {
 			System.out.println("1.리스트 2.등록 3.수정 4.삭제 5.검색 6.종료");
 			System.out.println("--------------------------------------");
@@ -29,25 +29,35 @@ public class PhoneApp {
 			
 			switch(menuNo) {
 				case 1: //리스트 
+					System.out.println("<1.리스트>");
+					List<PhoneVo> dbList = phoneDao.phoneSelect();
+					for(int i=0; i<dbList.size(); i++) {
+						int personId = dbList.get(i).getPersonId();
+						String name = dbList.get(i).getName();
+						String hp = dbList.get(i).getHp();
+						String company = dbList.get(i).getCompany();
+						
+						System.out.println(personId + ".\t" + name + "\t" + hp + "\t" + company);
+					}
+					System.out.println("");
+					break;
 					
-				
 				case 2: //등록
 					System.out.println("<2.등록>");
-					int counter=0;
-					PhoneVo pInsert = new PhoneVo();
-					pInsert.setPersonId(counter++);
+					PhoneVo personVo = new PhoneVo ();
 					
 					System.out.print("이름 > ");
-					pInsert.setName(sc.nextLine());
-					
+					personVo.setName(sc.nextLine());
 					System.out.print("휴대전화 > ");
-					pInsert.setHp(sc.nextLine());
-					
+					personVo.setHp(sc.nextLine());
 					System.out.print("회사번호 > ");
-					pInsert.setCompany(sc.nextLine());
+					personVo.setCompany(sc.nextLine());
 					
-					pVolist.add(pInsert);
+					phoneDao.phoneInsert(personVo);
+					System.out.println("[등록되었습니다.]");
+					System.out.println();
 					break;
+					
 				case 3: //수정
 					System.out.println("<3.수정>");
 					PhoneVo pUpdate = new PhoneVo();
@@ -64,7 +74,8 @@ public class PhoneApp {
 					System.out.print("회사번호 > ");
 					pUpdate.setCompany(sc.nextLine());
 					
-					pVolist.add(pUpdate);
+					phonelist.add(pUpdate);
+					System.out.println("");
 					break;
 				case 4: //삭제
 					System.out.println("<4.삭제>");

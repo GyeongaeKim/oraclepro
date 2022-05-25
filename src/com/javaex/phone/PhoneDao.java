@@ -64,7 +64,7 @@ public class PhoneDao {
 			query += "        hp, ";
 			query += "        company ";
 			query += " from person ";
-			System.out.println(query);
+			//System.out.println(query);
 			
 			//바인딩
 			pstmt = conn.prepareStatement(query);
