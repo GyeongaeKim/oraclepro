@@ -19,7 +19,7 @@ create table person(
 --시퀀스 생성
 create sequence seq_person_id
 increment by 1
-start with 1
+start with 1 
 nocache;
 
 --insert문
